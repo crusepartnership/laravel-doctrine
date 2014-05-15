@@ -96,25 +96,26 @@ class ServiceProvider extends Base
 
             }
 
-            $metdataDriver = $config->get('laravel-doctrine::doctrine.metadataDriver');
+            $metadataDriver = $config->get('laravel-doctrine::doctrine.metadataDriver');
+            $metadataPaths = $config->get('laravel-doctrine::doctrine.metadata');
             $doctrine_config = Setup::createConfiguration(
                 $devMode,
                 $config->get('laravel-doctrine::doctrine.proxy_classes.directory'),
                 $cache
             );
 
-            switch ($metdataDriver) {
+            switch ($metadataDriver) {
                 case 'xml':
-                    $doctrine_config->setMetadataDriverImpl(new XmlDriver($paths));
+                    $doctrine_config->setMetadataDriverImpl(new XmlDriver($metadataPaths));
                 break;
 
                 case 'yaml':
-                    $doctrine_config->setMetadataDriverImpl(new YamlDriver($paths));
+                    $doctrine_config->setMetadataDriverImpl(new YamlDriver($metadataPaths));
                 break;
 
                 case 'annotation':
                 default:
-                    $doctrine_config->setMetadataDriverImpl(new AnnotationDriver($paths));
+                    $doctrine_config->setMetadataDriverImpl(new AnnotationDriver($metadataPaths));
                 break;
             }
 
@@ -213,6 +214,8 @@ class ServiceProvider extends Base
         return array(
             'doctrine',
             'Doctrine\ORM\EntityManager',
+            'doctrine.repository',
+            'Doctrine\ORM\EntityRepository',
             'doctrine.metadata-factory',
             'Doctrine\ORM\Mapping\ClassMetadataFactory',
             'doctrine.metadata',

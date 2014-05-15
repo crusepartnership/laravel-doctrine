@@ -60,6 +60,9 @@ class GenerateEntitiesCommand extends Command
 
         $this->info('Generating database entities...');
         $entityPath = Config::get('laravel-doctrine::doctrine.entity_generator.directory');
+        if (!$entityPath) {
+            $this->error('doctrine.entity_generator.directory not specified');
+        }
         $entityGenerator->generate($metadatas, $entityPath);
         $this->info('Database entities generated successfully!');
 
