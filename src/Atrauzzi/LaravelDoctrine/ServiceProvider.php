@@ -39,7 +39,8 @@ class ServiceProvider extends Base
 
         //
         // Doctrine
-        //
+        $this->app->singleton('Doctrine\ORM\EntityManagerInterface', 'Doctrine\ORM\EntityManager');
+
         $this->app->singleton('Doctrine\ORM\EntityManager', function ($app) {
 
             // Retrieve our configuration.
